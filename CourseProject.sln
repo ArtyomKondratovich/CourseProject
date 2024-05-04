@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseProject", "Temp\CourseProject.csproj", "{BDF3AD55-553D-46C2-8ACC-E17510C6719C}"
 EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "Canvas", "Canvas\Canvas.esproj", "{4934AEA0-989F-4E2E-BD4C-85922AA78653}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,12 @@ Global
 		{BDF3AD55-553D-46C2-8ACC-E17510C6719C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BDF3AD55-553D-46C2-8ACC-E17510C6719C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BDF3AD55-553D-46C2-8ACC-E17510C6719C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4934AEA0-989F-4E2E-BD4C-85922AA78653}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4934AEA0-989F-4E2E-BD4C-85922AA78653}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4934AEA0-989F-4E2E-BD4C-85922AA78653}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{4934AEA0-989F-4E2E-BD4C-85922AA78653}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4934AEA0-989F-4E2E-BD4C-85922AA78653}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4934AEA0-989F-4E2E-BD4C-85922AA78653}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

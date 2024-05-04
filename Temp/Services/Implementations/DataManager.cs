@@ -6,10 +6,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Collections.Generic;
 using Temp.Services.Models;
-using System.Linq;
 using Temp.Data;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 using System.Threading;
 
 namespace Temp.Services.Implementations
@@ -17,30 +15,21 @@ namespace Temp.Services.Implementations
     public class DataManager : IDataManager
     {
         private readonly HttpClient _client = new HttpClient();
-        private readonly CourseProjectDbContext _dbContext;
+        private readonly IRepository _repositrory;
 
-        public DataManager()
+        public DataManager(string directoryPath) 
         {
-            _dbContext = new CourseProjectDbContext();
+            _repositrory = new Repository(directoryPath);
         }
 
-        public async Task<IEnumerable<FinancialData>> GetAllAsync(CancellationToken token = default)
+        public IEnumerable<FinancialData> GetAll()
         {
-            return await _dbContext.FinancialData
-                .ToListAsync(token);
+            return _repositrory.GetAll();
         }
 
-        public async Task<IEnumerable<FinancialData>> GetDataWithFilter(Expression<Func<FinancialData, bool>> filter, CancellationToken token = default)
+        public IEnumerable<FinancialData> GetfinancialDataWithFilter(Expression<Func<FinancialData, bool>> filter)
         {
-            return await _dbContext.FinancialData
-                .Where(filter)
-                .ToListAsync(token);
-        }
-
-        public async Task CreateDataAsync(IEnumerable<FinancialData> data, CancellationToken token = default)
-        {
-            await _dbContext.FinancialData.AddRangeAsync(data, token);
-            await _dbContext.SaveChangesAsync(token);
+            return _repositrory.GetFinancialDataWithFilter(filter);
         }
 
         public async Task<IEnumerable<FinancialData>> LoadDataWithUrlAsync(string url, CancellationToken token = default)

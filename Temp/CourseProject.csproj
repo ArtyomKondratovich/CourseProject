@@ -346,7 +346,8 @@
     <Compile Include="Components\CustomCandlestickSeries.cs" />
     <Compile Include="Configuration\IJsonConfiguration.cs" />
     <Compile Include="Configuration\JsonConfiguration.cs" />
-    <Compile Include="Data\CourseProjectDbContext.cs" />
+    <Compile Include="Data\IRepository.cs" />
+    <Compile Include="Data\Repository.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -364,6 +365,7 @@
     <Compile Include="Services\Models\Ohlvc.cs" />
     <Compile Include="Services\Utils\DateTimeConverter.cs" />
     <Compile Include="Services\Utils\Enums.cs" />
+    <Compile Include="Services\Utils\Expressions.cs" />
     <Compile Include="Services\Utils\OhlvcConverter.cs" />
     <Compile Include="Services\Utils\ManagerExtensions.cs" />
     <Compile Include="Services\Utils\Mapper.cs" />
@@ -380,6 +382,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="appsettings.personal.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -394,7 +397,10 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Scripts\chart.js" />
+    <Content Include="Scripts\chart.min.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

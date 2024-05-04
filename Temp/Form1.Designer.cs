@@ -41,7 +41,7 @@
             this.twoYears = new System.Windows.Forms.Button();
             this.fiveYears = new System.Windows.Forms.Button();
             this.range = new System.Windows.Forms.Button();
-            this.plotView1 = new OxyPlot.WindowsForms.PlotView();
+            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +60,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 97.26148F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 413F));
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.plotView1, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.webBrowser1, 1, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
@@ -187,17 +187,13 @@
             this.range.Text = "button2";
             this.range.UseVisualStyleBackColor = true;
             // 
-            // plotView1
+            // webBrowser1
             // 
-            this.plotView1.Location = new System.Drawing.Point(23, 116);
-            this.plotView1.Name = "plotView1";
-            this.plotView1.PanCursor = System.Windows.Forms.Cursors.Hand;
-            this.plotView1.Size = new System.Drawing.Size(713, 431);
-            this.plotView1.TabIndex = 4;
-            this.plotView1.Text = "mainChart";
-            this.plotView1.ZoomHorizontalCursor = System.Windows.Forms.Cursors.SizeWE;
-            this.plotView1.ZoomRectangleCursor = System.Windows.Forms.Cursors.SizeNWSE;
-            this.plotView1.ZoomVerticalCursor = System.Windows.Forms.Cursors.SizeNS;
+            this.webBrowser1.Location = new System.Drawing.Point(23, 116);
+            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowser1.Name = "webBrowser1";
+            this.webBrowser1.Size = new System.Drawing.Size(713, 431);
+            this.webBrowser1.TabIndex = 4;
             // 
             // Form1
             // 
@@ -228,7 +224,7 @@
         private System.Windows.Forms.Button twoYears;
         private System.Windows.Forms.Button fiveYears;
         private System.Windows.Forms.Button range;
-        private OxyPlot.WindowsForms.PlotView plotView1;
+        private System.Windows.Forms.WebBrowser webBrowser1;
     }
 }
 

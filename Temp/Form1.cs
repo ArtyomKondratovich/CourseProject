@@ -1,5 +1,4 @@
 ﻿using OxyPlot.Axes;
-using OxyPlot.Legends;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 using OxyPlot;
@@ -18,6 +17,7 @@ using System.Linq;
 using System.Diagnostics;
 using System.IO;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 
 namespace Temp
 {
@@ -47,9 +47,9 @@ namespace Temp
 
             _config = new JsonConfiguration();
             _config.AddJsonFile("appsettings.personal.json", true);
-            _config.AddJsonFile("config.json", true);
-            _urlManager = new UrlManager(_config["API_BASE_URL"], _config["API_KEY"]);
-            _dataManager = new DataManager();
+            //_config.AddJsonFile("config.json", true);
+            //_urlManager = new UrlManager(_config["API_BASE_URL"], _config["API_KEY"]);
+            _dataManager = new DataManager(_config["DataSource"]);
 
             #endregion
         }
@@ -65,7 +65,7 @@ namespace Temp
             // Prepare the data
             var candlestickItems = new List<HighLowItem>();
 
-            points = points.OrderBy(x => x.DateTime);
+            points = points.OrderBy(x => x.DateTime).ToList();
 
             foreach (var point in points)
             {
@@ -82,44 +82,6 @@ namespace Temp
                 candlestickItems.Add(item);
             }
 
-            for (int i = 0; i < candlestickItems.Count; i++)
-            {
-                if (candlestickItems[i].High > 280.0)
-                {
-                    Debug.WriteLine($"{i}: {candlestickItems[i].ToString()}");
-                }
-            }
-
-            Debug.WriteLine("asda");
-
-
-            /*var maxOx = candlestickItems[candlestickItems.Count - 1].X;
-            var minOx = candlestickItems[0].X;
-            var maxOy = candlestickItems.Max(x => x.High) + 5.0;
-            var minOy = candlestickItems.Min(x => x.Low) - 5.0;
-
-            
-
-            var xAxis = new LinearAxis
-            {
-                Position = AxisPosition.Bottom,
-                AbsoluteMinimum = minOx,    // Set the minimum value
-                AbsoluteMaximum = maxOx,   // Set the maximum value
-                Title = "X-axis"
-            };
-            
-            var yAxis = new LinearAxis
-            {
-                Position = AxisPosition.Left,
-                Title = "Y-axis",
-                AbsoluteMaximum = maxOy,
-                AbsoluteMinimum = minOy
-            };
-
-            plotModel.Axes.Add(xAxis);
-            plotModel.Axes.Add(yAxis);
-
-            // Create the candlestick series
             var candlestickSeries = new CandleStickSeries
             {
                 Title = "Candlestick",
@@ -135,82 +97,90 @@ namespace Temp
             // Add the series to the plot model
             plotModel.Series.Add(candlestickSeries);
 
-            plotView1.Model = plotModel;*/
+            plotView1.Model = plotModel;
         }
 
-        private async void OneDay_Click(object sender, EventArgs e)
+        private void OneDay_Click(object sender, EventArgs e)
         {
-            _queryOptions.Interval = Interval.onemin;
-            _queryOptions.Outsize = Outsize.full;
-            _queryOptions.SeriesType = TimeSeries.TIME_SERIES_INTRADAY;
+            var start = DateTime.Now;
+            var end = start.AddDays(-1);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
 
-            var url = _urlManager.GetUrlWithOptions(_queryOptions);
-            var loadedFinancialData = await _dataManager.LoadDataWithUrlAsync(url);
-
-            PrintCnadlestickChart(loadedFinancialData);
+            PrintCnadlestickChart(filteredData);
         }
 
-        private async void FiveDays_Click(object sender, EventArgs e)
+        private void FiveDays_Click(object sender, EventArgs e)
         {
-            var fiveDaysAgo = DateTime.Now.AddDays(-5);
-            var points = await GetDataInRange(fiveDaysAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
+            var start = DateTime.Now;
+            var end = start.AddDays(-5);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
+
+            PrintCnadlestickChart(filteredData);
         }
 
-        private async void OneMonth_Click(object sender, EventArgs e)
+        private void OneMonth_Click(object sender, EventArgs e)
         {
-            var monthAgo = DateTime.Now.AddMonths(-1);
-            var points = await GetDataInRange(monthAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
+            var start = DateTime.Now;
+            var end = start.AddMonths(-1);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
+
+            PrintCnadlestickChart(filteredData);
         }
 
-        private async void ThreeMonth_Click(object sender, EventArgs e)
+        private void ThreeMonth_Click(object sender, EventArgs e)
         {
-            var threeMounthAgo = DateTime.Now.AddMonths(-3);
-            var points = await GetDataInRange(threeMounthAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
+            var start = DateTime.Now;
+            var end = start.AddMonths(-3);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
+
+            PrintCnadlestickChart(filteredData);
         }
 
-        private async void SixMonth_Click(object sender, EventArgs e)
+        private void SixMonth_Click(object sender, EventArgs e)
         {
-            var sixMonthAgo = DateTime.Now.AddMonths(-6);
-            var points = await GetDataInRange(sixMonthAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
+            var start = DateTime.Now;
+            var end = start.AddMonths(-6);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
+
+            PrintCnadlestickChart(filteredData);
         }
 
         private async void CurrentYear_Click(object sender, EventArgs e)
         {}
 
-        private async void OneYear_Click(object sender, EventArgs e)
+        private void OneYear_Click(object sender, EventArgs e)
         {
-            var yearAgo = DateTime.Now.AddYears(-1);
-            var points = await GetDataInRange(yearAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
+            var start = DateTime.Now;
+            var end = start.AddYears(-1);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
+
+            PrintCnadlestickChart(filteredData);
         }
 
-        private async void TwoYears_Click(object sender, EventArgs e)
+        private void TwoYears_Click(object sender, EventArgs e)
         {
-            var twoYearsAgo = DateTime.Now.AddYears(-2);
-            var points = await GetDataInRange(twoYearsAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
+            var start = DateTime.Now;
+            var end = start.AddYears(-2);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
+
+            PrintCnadlestickChart(filteredData);
         }
 
-        private async void FiveYears_Click(object sender, EventArgs e)
+        private void FiveYears_Click(object sender, EventArgs e)
         {
-            var fiveYearsAgo = DateTime.Now.AddYears(-5);
-            var points = await GetDataInRange(fiveYearsAgo, DateTime.Now);
-            PrintCnadlestickChart(points);
-        }
+            var start = DateTime.Now;
+            var end = start.AddYears(-5);
+            var filter = Expressions.GetInRangeFilter(start, end);
+            var filteredData = _dataManager.GetfinancialDataWithFilter(filter);
 
-        private async Task<IEnumerable<FinancialData>> GetDataInRange(DateTime start, DateTime end)
-        {
-            var options = GetCurrentOptions();
-
-            var url = _urlManager.GetUrlWithOptions(options);
-
-            var loadedData = await _dataManager.LoadDataWithUrlAsync(url);
-
-            return Enumerable.Empty<FinancialData>();
+            PrintCnadlestickChart(filteredData);
         }
 
         private async Task LoadAndSaveAllEpamData() 
@@ -241,17 +211,6 @@ namespace Temp
                     serializer.Serialize(file, loadedFinancialData);
                 }
             }
-        }
-
-        private QueryOptions GetCurrentOptions()
-        {
-            return new QueryOptions
-            {
-                SeriesType = TimeSeries.TIME_SERIES_DAILY,
-                Outsize = Outsize.compact,
-                Symbol = "EPAM",
-                TypeOfData = DataType.json
-            };
         }
 
         private void InitializeChart() 
